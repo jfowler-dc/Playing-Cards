@@ -4,20 +4,22 @@
 	  	<div class="grid">
 
 	  		<div @click="drawCard" class="deck">
-	  			<h2>Unused Pile</h2>
-		  		<card 
+	  			<h2>Unused Pile - {{allCards.length}}</h2>
+		  		<div class="stack">
+		  			<card 
 			  		v-for="(card, index) in allCards" 
-			  		v-bind:style="{marginTop: (index * 3) + 'px' }" 
+			  		v-bind:style="{marginBottom: (-179) + 'px' }"
 			  		:key="index" 
 			  		:suit="card.suit" 
 			  		:value="card.value" />
+		  		</div>
 			</div>
-			
+		
 			<div class="deck">
-				<h2>Used Pile</h2>
+				<h2>Used Pile - {{usedPile.length}}</h2>
 				<card 
 					v-for="(card, index) in usedPile"
-					v-bind:style="{marginTop: (index * 3) + 'px' }"
+					v-bind:style="{marginBottom: (-179) + 'px' }"
 					:key="index" 
 			  		:suit="card.suit" 
 			  		:value="card.value" />
@@ -264,7 +266,9 @@ export default {
 			}
 		},
 		drawCard() {
-			this.usedPile.push(this.allCards.pop())
+			if (this.allCards.length > 0) {
+				this.usedPile.push(this.allCards.pop())
+			}
 		}
 	},
 	components: {
@@ -277,6 +281,12 @@ export default {
 <style scoped>
 	.grid {
 		display:grid; 
-		grid-template-columns:repeat(3, [row] 1fr);
+		grid-template-columns:repeat(2, [row] 1fr);
+	}
+	.stack {
+		position:relative;
+		width:120px;
+		min-height:350px;
+		margin:auto;
 	}
 </style>
