@@ -119,3 +119,92 @@ header button {
 	margin-left:20px;
 	margin-right:auto;
 }
+
+.card {
+	width:120px; 
+	height:180px; 
+	border:1px solid; 
+	border-radius:5px; 
+	background:#fff;
+	margin:auto;
+	margin-bottom:-180px;
+	position:relative;
+	display:flex;
+	flex-wrap:wrap;
+}
+.card .top {
+	width:100%;
+	margin-bottom:auto;
+	margin-top:5px;
+	display:flex;
+	justify-content:space-between;
+}
+.card .top .suitContainer {
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction:row;
+}
+.card .bottom {
+	width:100%;
+	margin-top:auto;
+	margin-bottom:5px;
+	display:flex;
+	justify-content:space-between;
+}
+.card .bottom .suitContainer {
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction:row;
+	min-width:18px;
+	max-width:18px;
+}
+.card .middle {
+	margin:auto;
+	font-size:60px;
+}
+.card .suit {
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	flex:0 0 100%;
+	font-size:14px;
+}
+.card .bottom .suitContainer .suit {
+	transform:rotate(180deg);
+}
+
+aside {
+	position:fixed;
+	overflow:scroll;
+	top:60px;
+	right:0;
+	width:300px;
+	height:calc(100% - 60px);
+	background:#e7e7e7;
+	box-sizing:border-box;
+	padding:0 20px;
+	padding-bottom:20px;
+	z-index:999;
+}
+aside h2 {
+	position:sticky;
+	top:0;
+	padding-top:20px;
+	padding-bottom:10px;
+	background:#e7e7e7;
+}
+aside ol {
+	text-align:left;
+}
+
+.grid {
+	display:grid; 
+	grid-template-columns:repeat(3, [row] 1fr);
+}
+.stack {
+	position:relative;
+	width:100%;
+	min-height:300px;
+	margin:auto;
+	overflow:hidden;
+}

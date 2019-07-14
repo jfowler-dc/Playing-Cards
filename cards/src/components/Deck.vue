@@ -6,13 +6,11 @@
 			<button @click="showActions">{{actionButtonText}}</button>
 		</header>
 
-		
 		<button @click="shuffle">
 			<span v-if="reshuffle == false">Shuffle Deck</span>
 			<span v-else>Re-Shuffle Deck</span>
 		</button>
 		<p v-if="shuffleCount > 0">Shuffled: <strong>{{shuffleCount}}</strong> many times</p>
-
 
 	  	<div class="grid">
 
@@ -209,45 +207,11 @@ export default {
 
 
 <style scoped>
-	.grid {
-		display:grid; 
-		grid-template-columns:repeat(3, [row] 1fr);
-	}
-	.stack {
-		position:relative;
-		width:100%;
-		min-height:300px;
-		margin:auto;
-		overflow:hidden;
-	}
 	.stack-contain {
 		position:relative;
 		top:-175px;
 	}
 	.single-card {
 		height:200px;
-	}
-	aside {
-		position:fixed;
-		overflow:scroll;
-		top:60px;
-		right:0;
-		width:300px;
-		height:calc(100% - 60px);
-		background:#e7e7e7;
-		box-sizing:border-box;
-		padding:0 20px;
-		padding-bottom:20px;
-		z-index:999;
-	}
-	aside h2 {
-		position:sticky;
-		top:0;
-		padding-top:20px;
-		padding-bottom:10px;
-		background:#e7e7e7;
-	}
-	aside ol {
-		text-align:left;
 	}
 </style>

@@ -10,9 +10,11 @@
   			<div class="suit">{{suitIcon}}</div>
   		</div>
   	</div>
+
   	<div class="middle">
   		{{suitIcon}}
   	</div>
+
   	<div class="bottom">
   		<div class="suitContainer">
   			<div class="suit">{{suitIcon}}</div>
@@ -66,58 +68,6 @@ export default {
 
 
 <style scoped>
-	.card {
-		width:120px; 
-		height:180px; 
-		border:1px solid; 
-		border-radius:5px; 
-		background:#fff;
-		margin:auto;
-		margin-bottom:-180px;
-		position:relative;
-		display:flex;
-		flex-wrap:wrap;
-	}
-	.card .top {
-		width:100%;
-		margin-bottom:auto;
-		margin-top:5px;
-		display:flex;
-		justify-content:space-between;
-	}
-	.card .top .suitContainer {
-		display:flex;
-		flex-wrap:wrap;
-		flex-direction:row;
-	}
-	.card .bottom {
-		width:100%;
-		margin-top:auto;
-		margin-bottom:5px;
-		display:flex;
-		justify-content:space-between;
-	}
-	.card .bottom .suitContainer {
-		display:flex;
-		flex-wrap:wrap;
-		flex-direction:row;
-		min-width:18px;
-		max-width:18px;
-	}
-	.card .middle {
-		margin:auto;
-		font-size:60px;
-	}
-	.card .suit {
-		display:flex;
-		align-items:center;
-		justify-content:center;
-		flex:0 0 100%;
-		font-size:14px;
-	}
-	.card .bottom .suitContainer .suit {
-		transform:rotate(180deg);
-	}
 	.card.red {
 		color:red;
 	}
