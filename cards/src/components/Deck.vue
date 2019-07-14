@@ -1,28 +1,50 @@
 <template>
 	<div>
-		<button @click="shuffle">Shuffle Deck</button>
+		<button @click="shuffle">
+			<span v-if="reshuffle == false">Shuffle Deck</span>
+			<span v-else>Re-Shuffle Deck</span>
+		</button>
 	  	<div class="grid">
-
-	  		<div @click="drawCard" class="deck">
-	  			<h2>Unused Pile - {{allCards.length}}</h2>
+	  		<div class="deck">
+	  			<h2>Unused Pile - {{unusedPile.length}}</h2>
+	  			<button v-if="currentHand.length <= 0" @click="drawCard">Draw Card</button>
 		  		<div class="stack">
-		  			<card 
-			  		v-for="(card, index) in allCards" 
-			  		v-bind:style="{marginBottom: (-179) + 'px' }"
-			  		:key="index" 
-			  		:suit="card.suit" 
-			  		:value="card.value" />
+		  			<div class="stack-contain">
+		  				<card 
+				  		v-for="(card, index) in unusedPile" 
+				  		v-bind:style="{bottom: (-179) + 'px', zIndex: (unusedPile.length - index) }"
+				  		:key="index" 
+				  		:suit="card.suit" 
+				  		:value="card.value"
+				  		:color="colors" />
+		  			</div>
 		  		</div>
+		  		<button>View Unused Pile</button>
 			</div>
-		
 			<div class="deck">
-				<h2>Used Pile - {{usedPile.length}}</h2>
+				<h2>Currently Drawn Card</h2>
+				<button v-if="currentHand.length > 0" @click="addToUnused">Add To Unused Pile</button>
+				<button v-if="currentHand.length > 0" @click="addToUsed">Add To Used Pile</button>
 				<card 
-					v-for="(card, index) in usedPile"
+					v-for="(card, index) in currentHand"
 					v-bind:style="{marginBottom: (-179) + 'px' }"
 					:key="index" 
 			  		:suit="card.suit" 
-			  		:value="card.value" />
+			  		:value="card.value"
+			  		:color="colors" />
+			</div>
+			<div class="deck">
+				<h2>Used Pile - {{usedPile.length}}</h2>
+				<div class="stack">
+					<card 
+						v-for="(card, index) in usedPile"
+						v-bind:style="{marginBottom: (-179) + 'px', zIndex: (usedPile.length - index) }"
+						:key="index" 
+				  		:suit="card.suit" 
+				  		:value="card.value"
+				  		:color="colors" />
+			  	</div>
+				<button v-if="usedPile.length > 0">View Used Pile</button>
 			</div>
 	  	</div>
 	</div>
@@ -36,240 +58,55 @@ export default {
 	name: 'Deck',
 	data () {
 		return {
-		  	allCards: [
-				{
-					"suit": "hearts",
-					"value": 2
-				},
-				{
-					"suit": "hearts",
-					"value": 3
-				},
-				{
-					"suit": "hearts",
-					"value": 4
-				},
-				{
-					"suit": "hearts",
-					"value": 5
-				},
-				{
-					"suit": "hearts",
-					"value": 6
-				},
-				{
-					"suit": "hearts",
-					"value": 7
-				},
-				{
-					"suit": "hearts",
-					"value": 8
-				},
-				{
-					"suit": "hearts",
-					"value": 9
-				},
-				{
-					"suit": "hearts",
-					"value": 10
-				},
-				{
-					"suit": "hearts",
-					"value": "J"
-				},
-				{
-					"suit": "hearts",
-					"value": "Q"
-				},
-				{
-					"suit": "hearts",
-					"value": "K"
-				},
-				{
-					"suit": "hearts",
-					"value": "A"
-				},
-				{
-					"suit": "diamonds",
-					"value": 2
-				},
-				{
-					"suit": "diamonds",
-					"value": 3
-				},
-				{
-					"suit": "diamonds",
-					"value": 4
-				},
-				{
-					"suit": "diamonds",
-					"value": 5
-				},
-				{
-					"suit": "diamonds",
-					"value": 6
-				},
-				{
-					"suit": "diamonds",
-					"value": 7
-				},
-				{
-					"suit": "diamonds",
-					"value": 8
-				},
-				{
-					"suit": "diamonds",
-					"value": 9
-				},
-				{
-					"suit": "diamonds",
-					"value": 10
-				},
-				{
-					"suit": "diamonds",
-					"value": "J"
-				},
-				{
-					"suit": "diamonds",
-					"value": "Q"
-				},
-				{
-					"suit": "diamonds",
-					"value": "K"
-				},
-				{
-					"suit": "diamonds",
-					"value": "A"
-				},
-				{
-					"suit": "clubs",
-					"value": 2
-				},
-				{
-					"suit": "clubs",
-					"value": 3
-				},
-				{
-					"suit": "clubs",
-					"value": 4
-				},
-				{
-					"suit": "clubs",
-					"value": 5
-				},
-				{
-					"suit": "clubs",
-					"value": 6
-				},
-				{
-					"suit": "clubs",
-					"value": 7
-				},
-				{
-					"suit": "clubs",
-					"value": 8
-				},
-				{
-					"suit": "clubs",
-					"value": 9
-				},
-				{
-					"suit": "clubs",
-					"value": 10
-				},
-				{
-					"suit": "clubs",
-					"value": "J"
-				},
-				{
-					"suit": "clubs",
-					"value": "Q"
-				},
-				{
-					"suit": "clubs",
-					"value": "K"
-				},
-				{
-					"suit": "clubs",
-					"value": "A"
-				},
-				{
-					"suit": "spades",
-					"value": 2
-				},
-				{
-					"suit": "spades",
-					"value": 3
-				},
-				{
-					"suit": "spades",
-					"value": 4
-				},
-				{
-					"suit": "spades",
-					"value": 5
-				},
-				{
-					"suit": "spades",
-					"value": 6
-				},
-				{
-					"suit": "spades",
-					"value": 7
-				},
-				{
-					"suit": "spades",
-					"value": 8
-				},
-				{
-					"suit": "spades",
-					"value": 9
-				},
-				{
-					"suit": "spades",
-					"value": 10
-				},
-				{
-					"suit": "spades",
-					"value": "J"
-				},
-				{
-					"suit": "spades",
-					"value": "Q"
-				},
-				{
-					"suit": "spades",
-					"value": "K"
-				},
-				{
-					"suit": "spades",
-					"value": "A"
-				}
-			],
-			usedPile: []
+			suits: ["hearts", "diamonds", "clubs", "spades"],
+			values: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A",],
+			colors: ["red", "black"], 
+			unusedPile: [],
+			usedPile: [],
+			currentHand: [],
+			reshuffle: false
 		}
 	},
 	computed: {
-		
 
 	}, 
 	methods: {
 		shuffle() {
-			if (this.usedPile.length == 0) {
-				this.allCards = this.allCards.sort(() => Math.random() - 0.5)
-			} else {
-				this.usedPile.forEach((e) => {
-					this.allCards.push(e)
-				})
-				this.allCards = this.allCards.sort(() => Math.random() - 0.5)
-				this.usedPile = []
-			}
+			this.usedPile.forEach((uP) => {
+				this.unusedPile.push(uP)
+			})
+			this.currentHand.forEach((cH) => {
+				this.unusedPile.push(cH)
+			})
+			this.unusedPile = this.unusedPile.sort(() => Math.random() - 0.5)
+			this.usedPile = []
+			this.currentHand = []
+			this.reshuffle = true
 		},
 		drawCard() {
-			if (this.allCards.length > 0) {
-				this.usedPile.push(this.allCards.pop())
+			if (this.unusedPile.length > 0) {
+				this.currentHand.push(this.unusedPile.shift())
 			}
+		},
+		addToUnused() {
+			this.unusedPile.unshift(this.currentHand.shift())
+		},
+		addToUsed() {
+			this.usedPile.unshift(this.currentHand.shift())
+		},
+		createCards() {
+			this.suits.forEach((s) => {
+				this.values.forEach((v) => {
+					this.unusedPile.push({
+						'suit': s,
+						'value': v
+					})
+				})
+			})
 		}
+	},
+	mounted() {
+		this.createCards()
 	},
 	components: {
 		card
@@ -281,12 +118,17 @@ export default {
 <style scoped>
 	.grid {
 		display:grid; 
-		grid-template-columns:repeat(2, [row] 1fr);
+		grid-template-columns:repeat(3, [row] 1fr);
 	}
 	.stack {
 		position:relative;
-		width:120px;
-		min-height:350px;
+		width:100%;
+		min-height:300px;
 		margin:auto;
+		overflow:hidden;
+	}
+	.stack-contain {
+		position:relative;
+		top:-175px;
 	}
 </style>

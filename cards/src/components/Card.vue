@@ -1,25 +1,25 @@
 <template>
-  <div class="card">
+  <div class="card" :class="colorClass">
   	<div class="top">
   		<div class="left">
   			<div class="suit">{{value}}</div>
-  			<div class="suit">{{suitModifier}}</div>
+  			<div class="suit">{{suitIcon}}</div>
   		</div>
   		<div class="right">
   			<div class="suit">{{value}}</div>
-  			<div class="suit">{{suitModifier}}</div>
+  			<div class="suit">{{suitIcon}}</div>
   		</div>
   	</div>
   	<div class="middle">
-  		{{suitModifier}}
+  		{{suitIcon}}
   	</div>
   	<div class="bottom">
   		<div class="left">
-  			<div class="suit">{{suitModifier}}</div>
+  			<div class="suit">{{suitIcon}}</div>
   			<div class="suit">{{value}}</div>
   		</div>
   		<div class="right">
-  			<div class="suit">{{suitModifier}}</div>
+  			<div class="suit">{{suitIcon}}</div>
   			<div class="suit">{{value}}</div>
   		</div>
   	</div>
@@ -30,25 +30,29 @@
 <script>
 export default {
   name: 'Card',
-  props: ['suit', 'value'],
+  props: ['suit', 'value', 'color'],
   data () {
     return {
-      
+      colorClass: ''
     }
   },
   computed: {
-  	suitModifier() {
+  	suitIcon() {
   		switch(this.suit) {
   			case 'hearts':
+  				this.colorClass = this.color[0]
   				return '♥' 
   				break
   			case 'diamonds':
+  				this.colorClass = this.color[0]
   				return '♦'
   				break
 			case 'clubs':
+				this.colorClass = this.color[1]
 				return '♣'
 				break
 			case 'spades':
+				this.colorClass = this.color[1]
 				return '♠'
 				break	
   		}
@@ -67,9 +71,9 @@ export default {
 		height:180px; 
 		border:1px solid; 
 		border-radius:5px; 
-		margin-bottom:10px;
 		background:#fff;
 		margin:auto;
+		margin-bottom:-180px;
 		position:relative;
 		display:flex;
 		flex-wrap:wrap;
@@ -108,5 +112,11 @@ export default {
 	}
 	.card .bottom .left .suit, .card .bottom .right .suit {
 		transform:rotate(180deg);
+	}
+	.card.red {
+		color:red;
+	}
+	.card.black {
+		color:black;
 	}
 </style>
