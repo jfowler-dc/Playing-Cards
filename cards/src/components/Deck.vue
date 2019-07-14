@@ -12,7 +12,7 @@
 
 	  		<div class="deck">
 	  			<h2>Unused Pile - {{unusedPile.length}}</h2>
-	  			<button v-if="currentHand.length <= 0" @click="drawCard">Draw Card</button>
+	  			<button @click="shuffleUnused">Shuffle Unused Pile</button>
 		  		<div class="stack">
 		  			<div class="stack-contain">
 		  				<card 
@@ -26,6 +26,7 @@
 				  		:color="colors" />
 		  			</div>
 		  		</div>
+		  		<button v-if="currentHand.length <= 0" @click="drawCard">Draw Card</button>
 			</div>
 
 			<div class="deck">
@@ -134,7 +135,13 @@ export default {
 			this.usedPile = []
 			this.currentHand = []
 			this.reshuffle = true
-			this.addToActionHistory('Deck shuffled')
+			this.addToActionHistory('All cards shuffled')
+			this.increaseShuffleCount()
+		},
+		shuffleUnused() {
+			this.unusedPile = this.unusedPile.sort(() => Math.random() - 0.5)
+			this.reshuffle = true
+			this.addToActionHistory('Unused Deck shuffled')
 			this.increaseShuffleCount()
 		},
 		drawCard() {
@@ -145,10 +152,10 @@ export default {
 		},
 		addToUnused() {
 			this.unusedPile.unshift(this.currentHand.shift())
-			this.addToActionHistory(this.unusedPile[0].value+' of '+this.unusedPile[0].suit+' added back to Unused Pile')
+			this.addToActionHistory(this.unusedPile[0].value+' of '+this.unusedPile[0].suit+' added back to the Unused Pile')
 		},
 		addToUsed() {
-			this.addToActionHistory(this.currentHand[0].value+' of '+this.currentHand[0].suit+' added to Used Pile')
+			this.addToActionHistory(this.currentHand[0].value+' of '+this.currentHand[0].suit+' added to the Used Pile')
 			this.usedPile.unshift(this.currentHand.shift())
 			
 		},
