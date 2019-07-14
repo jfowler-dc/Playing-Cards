@@ -1,13 +1,19 @@
 <template>
 	<div>
+		<header>
+			<img id="logo" src="../assets/logo.png">
+			<h1>Coding Challenge</h1>
+			<button @click="showActions">{{actionButtonText}}</button>
+		</header>
+
+		
 		<button @click="shuffle">
 			<span v-if="reshuffle == false">Shuffle Deck</span>
 			<span v-else>Re-Shuffle Deck</span>
 		</button>
-		<br>
-		<button @click="showActions">{{actionButtonText}}</button>
-		<br>
 		<p v-if="shuffleCount > 0">Shuffled: <strong>{{shuffleCount}}</strong> many times</p>
+
+
 	  	<div class="grid">
 
 	  		<div class="deck">
@@ -71,12 +77,15 @@
 			</div>
 
 	  	</div>
+
+
 	  	<aside v-if="displayActions == true">
 			<h2>Actions</h2>
 			<ol>
 				<li v-for="action in actionHistory">{{action.action}}</li>
 			</ol>
 	  	</aside>
+
 	</div>
 </template>
 
@@ -221,13 +230,14 @@ export default {
 	aside {
 		position:fixed;
 		overflow:scroll;
-		top:0;
+		top:60px;
 		right:0;
 		width:300px;
-		height:100%;
+		height:calc(100% - 60px);
 		background:#e7e7e7;
 		box-sizing:border-box;
 		padding:0 20px;
+		padding-bottom:20px;
 		z-index:999;
 	}
 	aside h2 {
