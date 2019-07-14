@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-  	{{suit}} - {{value}}
+  	{{suitModifier}} - {{value}}
   </div>
 </template>
 
@@ -11,8 +11,26 @@ export default {
   props: ['suit', 'value'],
   data () {
     return {
-      msg: ''
+      
     }
+  },
+  computed: {
+  	suitModifier() {
+  		switch(this.suit) {
+  			case 'hearts':
+  				return '♥' 
+  				break
+  			case 'diamonds':
+  				return '♦'
+  				break
+			case 'clubs':
+				return '♣'
+				break
+			case 'spades':
+				return '♠'
+				break	
+  		}
+  	}
   },
   methods: {
 
@@ -22,5 +40,16 @@ export default {
 
 
 <style scoped>
-
+	.card {
+		width:120px; 
+		height:180px; 
+		border:1px solid; 
+		border-radius:5px; 
+		margin-bottom:10px;
+		background:#fff;
+		margin:auto;
+	}
+	.deck .card {
+		position:absolute;
+	}
 </style>

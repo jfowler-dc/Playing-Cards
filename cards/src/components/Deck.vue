@@ -1,11 +1,28 @@
 <template>
 	<div>
-	  	<div class="pile">
-		  	<card v-for="card in allCards" :suit="card.suit" :value="card.value" />
-		</div>
-		<div class="pile">
-		  	<card v-for="card in usedPile" :suit="card.suit" :value="card.value" />
-		</div>
+		<button @click="shuffle">Shuffle Deck</button>
+	  	<div class="grid">
+
+	  		<div @click="drawCard" class="deck">
+	  			<h2>Unused Pile</h2>
+		  		<card 
+			  		v-for="(card, index) in allCards" 
+			  		v-bind:style="{marginTop: (index * 3) + 'px' }" 
+			  		:key="index" 
+			  		:suit="card.suit" 
+			  		:value="card.value" />
+			</div>
+			
+			<div class="deck">
+				<h2>Used Pile</h2>
+				<card 
+					v-for="(card, index) in usedPile"
+					v-bind:style="{marginTop: (index * 3) + 'px' }"
+					:key="index" 
+			  		:suit="card.suit" 
+			  		:value="card.value" />
+			</div>
+	  	</div>
 	</div>
 </template>
 
@@ -230,9 +247,24 @@ export default {
 			usedPile: []
 		}
 	},
+	computed: {
+		
+
+	}, 
 	methods: {
 		shuffle() {
-			
+			if (this.usedPile.length == 0) {
+				this.allCards = this.allCards.sort(() => Math.random() - 0.5)
+			} else {
+				this.usedPile.forEach((e) => {
+					this.allCards.push(e)
+				})
+				this.allCards = this.allCards.sort(() => Math.random() - 0.5)
+				this.usedPile = []
+			}
+		},
+		drawCard() {
+			this.usedPile.push(this.allCards.pop())
 		}
 	},
 	components: {
@@ -243,5 +275,8 @@ export default {
 
 
 <style scoped>
-
+	.grid {
+		display:grid; 
+		grid-template-columns:repeat(3, [row] 1fr);
+	}
 </style>
