@@ -10,7 +10,7 @@
 			<span v-if="reshuffle == false">Shuffle Deck</span>
 			<span v-else>Re-Shuffle Deck</span>
 		</button>
-		<p v-if="shuffleCount > 0">Shuffled: <strong>{{shuffleCount}}</strong> many times</p>
+		<p v-if="shuffleCount > 0">Shuffled: <strong>{{shuffleCount}}</strong> {{shuffleTimesText}}</p>
 
 	  	<div class="grid">
 
@@ -103,6 +103,7 @@ export default {
 			usedPile: [],
 			currentHand: [],
 			reshuffle: false,
+			shuffleTimesText: 'time',
 			shuffleCount: 0,
 			actionHistory: [],
 			displayActions: false,
@@ -145,12 +146,14 @@ export default {
 			this.reshuffle = true
 			this.addToActionHistory('All cards shuffled')
 			this.increaseShuffleCount()
+			this.timesText()
 		},
 		shuffleUnused() {
 			this.unusedPile = this.unusedPile.sort(() => Math.random() - 0.5)
 			this.reshuffle = true
 			this.addToActionHistory('Unused Deck shuffled')
 			this.increaseShuffleCount()
+			this.timesText()
 		},
 		drawCard() {
 			if (this.unusedPile.length > 0) {
@@ -194,6 +197,11 @@ export default {
 			} else {	
 				this.displayActions = false
 				this.actionButtonText = 'Show Actions'
+			}
+		},
+		timesText() {
+			if (this.shuffleCount > 1) {
+				this.shuffleTimesText = 'times'
 			}
 		}
 	},
