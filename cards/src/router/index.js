@@ -5,11 +5,11 @@ import Deck from '@/components/Deck'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Deck',
-      component: Deck
-    }
-  ]
+	routes: [
+		{
+			path: '/',
+			name: 'Deck',
+			component: Deck
+		}
+	]
 })

@@ -1,11 +1,11 @@
 <template>
   <div class="card" :class="colorClass">
   	<div class="top">
-  		<div class="left">
+  		<div class="suitContainer">
   			<div class="suit">{{value}}</div>
   			<div class="suit">{{suitIcon}}</div>
   		</div>
-  		<div class="right">
+  		<div class="suitContainer">
   			<div class="suit">{{value}}</div>
   			<div class="suit">{{suitIcon}}</div>
   		</div>
@@ -14,11 +14,11 @@
   		{{suitIcon}}
   	</div>
   	<div class="bottom">
-  		<div class="left">
+  		<div class="suitContainer">
   			<div class="suit">{{suitIcon}}</div>
   			<div class="suit">{{value}}</div>
   		</div>
-  		<div class="right">
+  		<div class="suitContainer">
   			<div class="suit">{{suitIcon}}</div>
   			<div class="suit">{{value}}</div>
   		</div>
@@ -39,19 +39,19 @@ export default {
   computed: {
   	suitIcon() {
   		switch(this.suit) {
-  			case 'hearts':
+  			case 'Hearts':
   				this.colorClass = this.color[0]
   				return '♥' 
   				break
-  			case 'diamonds':
+  			case 'Diamonds':
   				this.colorClass = this.color[0]
   				return '♦'
   				break
-			case 'clubs':
+			case 'Clubs':
 				this.colorClass = this.color[1]
 				return '♣'
 				break
-			case 'spades':
+			case 'Spades':
 				this.colorClass = this.color[1]
 				return '♠'
 				break	
@@ -81,10 +81,11 @@ export default {
 	.card .top {
 		width:100%;
 		margin-bottom:auto;
+		margin-top:5px;
 		display:flex;
 		justify-content:space-between;
 	}
-	.card .top .left, .card .top .right {
+	.card .top .suitContainer {
 		display:flex;
 		flex-wrap:wrap;
 		flex-direction:row;
@@ -92,13 +93,16 @@ export default {
 	.card .bottom {
 		width:100%;
 		margin-top:auto;
+		margin-bottom:5px;
 		display:flex;
 		justify-content:space-between;
 	}
-	.card .bottom .left, .card .bottom .right {
+	.card .bottom .suitContainer {
 		display:flex;
 		flex-wrap:wrap;
 		flex-direction:row;
+		min-width:18px;
+		max-width:18px;
 	}
 	.card .middle {
 		margin:auto;
@@ -109,8 +113,9 @@ export default {
 		align-items:center;
 		justify-content:center;
 		flex:0 0 100%;
+		font-size:14px;
 	}
-	.card .bottom .left .suit, .card .bottom .right .suit {
+	.card .bottom .suitContainer .suit {
 		transform:rotate(180deg);
 	}
 	.card.red {

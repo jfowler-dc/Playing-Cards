@@ -4,7 +4,12 @@
 			<span v-if="reshuffle == false">Shuffle Deck</span>
 			<span v-else>Re-Shuffle Deck</span>
 		</button>
+		<br>
+		<button @click="showActions">{{actionButtonText}}</button>
+		<br>
+		<p v-if="shuffleCount > 0">Shuffled: <strong>{{shuffleCount}}</strong> many times</p>
 	  	<div class="grid">
+
 	  		<div class="deck">
 	  			<h2>Unused Pile - {{unusedPile.length}}</h2>
 	  			<button v-if="currentHand.length <= 0" @click="drawCard">Draw Card</button>
@@ -12,41 +17,65 @@
 		  			<div class="stack-contain">
 		  				<card 
 				  		v-for="(card, index) in unusedPile" 
-				  		v-bind:style="{bottom: (-179) + 'px', zIndex: (unusedPile.length - index) }"
+				  		v-bind:style="{
+				  			bottom: (-179) + 'px', 
+				  			zIndex: (unusedPile.length - index) }"
 				  		:key="index" 
 				  		:suit="card.suit" 
 				  		:value="card.value"
 				  		:color="colors" />
 		  			</div>
 		  		</div>
-		  		<button>View Unused Pile</button>
 			</div>
+
 			<div class="deck">
 				<h2>Currently Drawn Card</h2>
-				<button v-if="currentHand.length > 0" @click="addToUnused">Add To Unused Pile</button>
-				<button v-if="currentHand.length > 0" @click="addToUsed">Add To Used Pile</button>
-				<card 
-					v-for="(card, index) in currentHand"
-					v-bind:style="{marginBottom: (-179) + 'px' }"
-					:key="index" 
-			  		:suit="card.suit" 
-			  		:value="card.value"
-			  		:color="colors" />
+				<div v-if="currentHand.length > 0">
+					<h3>{{namedSuit}} of {{currentHand[0].suit}}</h3>
+				</div>
+				
+				<div class="single-card" v-for="(card, index) in currentHand">
+					<card 
+						v-bind:style="{marginBottom: (-179) + 'px' }"
+						:key="index" 
+				  		:suit="card.suit" 
+				  		:value="card.value"
+				  		:color="colors" />
+				</div>
+				<div v-if="currentHand.length > 0">
+					<h4 >Add to:</h4>
+				  	<button @click="addToUnused">
+				  		Unused Pile
+				  	</button>
+					<button @click="addToUsed">
+						Used Pile 
+					</button>
+				</div>
+				<button v-if="currentHand.length == 0" @click="drawCard">Draw New Card</button>
 			</div>
+
 			<div class="deck">
 				<h2>Used Pile - {{usedPile.length}}</h2>
 				<div class="stack">
 					<card 
 						v-for="(card, index) in usedPile"
-						v-bind:style="{marginBottom: (-179) + 'px', zIndex: (usedPile.length - index) }"
+						v-bind:style="{
+							marginBottom: (-179) + 'px', 
+							zIndex: (usedPile.length - index) }"
 						:key="index" 
 				  		:suit="card.suit" 
 				  		:value="card.value"
 				  		:color="colors" />
 			  	</div>
-				<button v-if="usedPile.length > 0">View Used Pile</button>
 			</div>
+
 	  	</div>
+	  	<aside v-if="displayActions == true">
+			<h2>Actions</h2>
+			<ol>
+				<li v-for="action in actionHistory">{{action.action}}</li>
+			</ol>
+	  	</aside>
 	</div>
 </template>
 
@@ -58,17 +87,40 @@ export default {
 	name: 'Deck',
 	data () {
 		return {
-			suits: ["hearts", "diamonds", "clubs", "spades"],
+			suits: ["Hearts", "Diamonds", "Clubs", "Spades"],
 			values: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A",],
 			colors: ["red", "black"], 
 			unusedPile: [],
 			usedPile: [],
 			currentHand: [],
-			reshuffle: false
+			reshuffle: false,
+			shuffleCount: 0,
+			actionHistory: [],
+			displayActions: false,
+			actionButtonText: 'Show Actions'
 		}
 	},
 	computed: {
-
+		namedSuit() {
+			if (this.currentHand.length > 0) {
+				switch(this.currentHand[0].value) {
+					case 'J': 
+						return 'Jack'
+						break;
+					case 'Q': 
+						return 'Queen'
+						break;
+					case 'K': 
+						return 'King'
+						break;
+					case 'A': 
+						return 'Ace'
+						break;
+					default:
+						return this.currentHand[0].value
+				}
+			}
+		}
 	}, 
 	methods: {
 		shuffle() {
@@ -82,17 +134,23 @@ export default {
 			this.usedPile = []
 			this.currentHand = []
 			this.reshuffle = true
+			this.addToActionHistory('Deck shuffled')
+			this.increaseShuffleCount()
 		},
 		drawCard() {
 			if (this.unusedPile.length > 0) {
+				this.addToActionHistory(this.unusedPile[0].value+' of '+this.unusedPile[0].suit+' drawn')
 				this.currentHand.push(this.unusedPile.shift())
 			}
 		},
 		addToUnused() {
 			this.unusedPile.unshift(this.currentHand.shift())
+			this.addToActionHistory(this.unusedPile[0].value+' of '+this.unusedPile[0].suit+' added back to Unused Pile')
 		},
 		addToUsed() {
+			this.addToActionHistory(this.currentHand[0].value+' of '+this.currentHand[0].suit+' added to Used Pile')
 			this.usedPile.unshift(this.currentHand.shift())
+			
 		},
 		createCards() {
 			this.suits.forEach((s) => {
@@ -103,6 +161,25 @@ export default {
 					})
 				})
 			})
+		},
+		increaseShuffleCount() {
+			this.shuffleCount++
+		},
+		addToActionHistory(action) {
+			let date = new Date()
+			this.actionHistory.push({
+				action: action,
+				timestamp: date.getTime()
+			})
+		},
+		showActions() {
+			if (this.displayActions == false) {
+				this.displayActions = true
+				this.actionButtonText = 'Hide Actions'
+			} else {	
+				this.displayActions = false
+				this.actionButtonText = 'Show Actions'
+			}
 		}
 	},
 	mounted() {
@@ -130,5 +207,30 @@ export default {
 	.stack-contain {
 		position:relative;
 		top:-175px;
+	}
+	.single-card {
+		height:200px;
+	}
+	aside {
+		position:fixed;
+		overflow:scroll;
+		top:0;
+		right:0;
+		width:300px;
+		height:100%;
+		background:#e7e7e7;
+		box-sizing:border-box;
+		padding:0 20px;
+		z-index:999;
+	}
+	aside h2 {
+		position:sticky;
+		top:0;
+		padding-top:20px;
+		padding-bottom:10px;
+		background:#e7e7e7;
+	}
+	aside ol {
+		text-align:left;
 	}
 </style>
