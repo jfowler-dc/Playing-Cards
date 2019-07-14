@@ -1,7 +1,12 @@
 # Playing-Cards
 52 standard playing cards
 
-> 52 standard playing cards
+## Description
+> Create a simple app using ReactJS that has a deck of 52 standard playing cards.
+
+## Tasks
+> 1. The app should allow us to draw from the deck. We should be able to draw 52 cards consecutively without seeing any duplicate cards.
+> 2. The app should also allow us to shuffle the cards and then draw again so that we are likely to see a differently ordered 52 cards.
 
 ## Build Setup
 
