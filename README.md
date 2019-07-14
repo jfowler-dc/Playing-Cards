@@ -11,7 +11,7 @@ cd Desktop
 git clone https://github.com/jfowler-dc/Playing-Cards.git
 
 ### view files
-cd cards
+cd Playing-Cards/cards
 
 ### install dependencies
 npm install
