@@ -16,7 +16,7 @@
 
 	  		<div class="deck">
 	  			<h2>Unused Pile - {{unusedPile.length}}</h2>
-	  			<button @click="shuffleUnused">Shuffle Unused Pile</button>
+	  			<button v-if="unusedPile.length > 2" @click="shuffleUnused">Shuffle Unused Pile</button>
 		  		<div class="stack">
 		  			<div class="stack-contain">
 		  				<card 
@@ -41,7 +41,6 @@
 				
 				<div class="single-card" v-for="(card, index) in currentHand">
 					<card 
-						v-bind:style="{marginBottom: (-179) + 'px' }"
 						:key="index" 
 				  		:suit="card.suit" 
 				  		:value="card.value"
@@ -62,15 +61,17 @@
 			<div class="deck">
 				<h2>Used Pile - {{usedPile.length}}</h2>
 				<div class="stack">
-					<card 
-						v-for="(card, index) in usedPile"
-						v-bind:style="{
-							marginBottom: (-179) + 'px', 
-							zIndex: (usedPile.length - index) }"
-						:key="index" 
-				  		:suit="card.suit" 
-				  		:value="card.value"
-				  		:color="colors" />
+					<div class="stack-contain">
+						<card 
+							v-for="(card, index) in usedPile"
+							v-bind:style="{
+								bottom: (-179) + 'px', 
+					  			zIndex: (usedPile.length - index) }"
+							:key="index" 
+					  		:suit="card.suit" 
+					  		:value="card.value"
+					  		:color="colors" />
+				  	</div>
 			  	</div>
 			</div>
 

@@ -11,20 +11,20 @@
 ## Build Setup
 
 ``` bash
-### clone app files to desktop
+# clone app files to desktop
 cd Desktop
 git clone https://github.com/jfowler-dc/Playing-Cards.git
 
-### view files
+# view files
 cd Playing-Cards/cards
 
-### install dependencies
+# install dependencies
 npm install
 
-### serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080
 npm run dev
 
-### build for production with minification
+# build for production with minification
 npm run build
 
 ```
